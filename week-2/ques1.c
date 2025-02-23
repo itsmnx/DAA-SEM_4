@@ -1,58 +1,80 @@
+#include <stdio.h>
 
-
-#include<stdio.h>
-
-int binarysearch(int arr[], int low, int high, int key) {
-    int count = 0;
+// Function to find the first occurrence of key
+int findFirst(int arr[], int low, int high, int key) {
+    int first = -1;
     while (low <= high) {
         int mid = (low + high) / 2;
-        
         if (arr[mid] == key) {
-          
-            int temp = mid;
-            while (temp >= low && arr[temp] == key) {
-                count++;
-                temp--;
-            }
-            temp = mid + 1;
-            while (temp <= high && arr[temp] == key) {
-                count++;
-                temp++;
-            }
-            
-            return count;  
+            first = mid;
+            high = mid - 1;  // Move left
         } else if (arr[mid] > key) {
             high = mid - 1;
         } else {
             low = mid + 1;
         }
     }
+    return first;
+}
+
+// Function to find the last occurrence of key
+int findLast(int arr[], int low, int high, int key) {
+    int last = -1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (arr[mid] == key) {
+            last = mid;
+            low = mid + 1;  // Move right
+        } else if (arr[mid] > key) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return last;
+}
+
+// Function to count occurrences of a key
+int countOccurrences(int arr[], int n, int key) {
+    int first = findFirst(arr, 0, n - 1, key);
+    int last = findLast(arr, 0, n - 1, key);
     
-    return 0; 
+    if (first == -1) {
+        return 0;  // Key not found
+    }
+    return (last - first + 1);  // Count of occurrences
 }
 
 int main() {
     int test;
-    printf("Enter the number of test cases: ");
-    scanf("%d", &test);
     
+    printf("Enter the number of test cases: ");
+    scanf("%d", &test);  // Read number of test cases
+
     while (test--) {
         int n;
-        printf("Enter the size of array: ");
-        scanf("%d", &n);
-        
+        printf("\nEnter the size of array: ");
+        scanf("%d", &n);  // Read array size
+
         int arr[n];
         printf("Enter the array elements in sorted order: ");
         for (int i = 0; i < n; i++) {
-            scanf("%d", &arr[i]);
+            scanf("%d", &arr[i]);  // Read sorted array elements
         }
-        
+
         int key;
-        printf("Enter the key to be searched in array: ");
-        scanf("%d", &key);
-        
-        printf("Duplication occurs %d times for key %d\n", binarysearch(arr, 0, n - 1, key), key);
+        printf("Enter the key to be searched: ");
+        scanf("%d", &key);  // Read the key to search
+
+        int count = countOccurrences(arr, n, key);
+        if (count > 0) {
+            printf("%d %d\n", key, count);  // Output in required format
+        } else {
+            printf("Key not present\n");  // If key is not found
+        }
     }
-    
+
     return 0;
 }
+
+ 
