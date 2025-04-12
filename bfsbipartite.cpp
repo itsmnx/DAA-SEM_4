@@ -33,10 +33,10 @@ bool isBipartite(int V, vector<vector<int>>& adj) {
 }
 
 int main() {
-    int V = 4; // Number of vertices
+    int V = 4; 
     vector<vector<int>> adj(V);
 
-    // Example graph:
+    // Example;
     // 0 -- 1
     // |    |
     // 3 -- 2
