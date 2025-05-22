@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <vector>
 #include <queue>
 
@@ -52,4 +52,46 @@ int main() {
     }
 
     return 0;
+}*/
+function isBipartite(V, adj) {
+    const color = new Array(V).fill(-1);
+
+    for (let start = 0; start < V; ++start) {
+        if (color[start] === -1) {
+            const queue = [];
+            queue.push(start);
+            color[start] = 0;
+
+            while (queue.length > 0) {
+                const u = queue.shift();
+
+                for (const v of adj[u]) {
+                    if (color[v] === -1) {
+                        color[v] = 1 - color[u];
+                        queue.push(v);
+                    } else if (color[v] === color[u]) {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
 }
+
+// Example usage:
+const V = 4;
+const adj = [
+    [1, 3], // Node 0
+    [0, 2], // Node 1
+    [1, 3], // Node 2
+    [0, 2]  // Node 3
+];
+
+if (isBipartite(V, adj)) {
+    console.log("Graph is Bipartite");
+} else {
+    console.log("Graph is NOT Bipartite");
+}
+
